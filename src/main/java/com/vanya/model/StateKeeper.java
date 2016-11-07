@@ -9,53 +9,53 @@ import java.util.concurrent.TimeUnit;
  * on 06.11.16.
  */
 public class StateKeeper {
-    public CommonState commonState;
+    public Jalousie jalousie;
 
     public static StateKeeper getStateKeeper() {
         return StateKeeperIniter.stateKeeper;
     }
 
     public List<State> getStates() {
-        return commonState.getStates();
+        return jalousie.getStates();
     }
 
     public State getCurrentState() {
-        return commonState.getState();
+        return jalousie.getState();
     }
 
     public void removeState(int stateId) {
-        commonState.removeState(stateId);
+        jalousie.removeState(stateId);
     }
 
     private static class StateKeeperIniter {
         private static final StateKeeper stateKeeper = new StateKeeper();
     }
 
-    public CommonState getCommonState() {
-        return commonState;
+    public Jalousie getCommonState() {
+        return jalousie;
     }
 
-    public void setCommonState(CommonState commonState) {
-        this.commonState = commonState;
+    public void setCommonState(Jalousie commonState) {
+        this.jalousie = commonState;
     }
 
     //todo add min
     public void addState(State newState) {
-        for (State state : commonState.getStates()) {
+        for (State state : jalousie.getStates()) {
             if (state.getStartDate().getTime() < newState.getStartDate().getTime() &&
                     state.getFinishDate().getTime() > newState.getStartDate().getTime()
                     ) {
                 return;
             }
         }
-        commonState.addNewState(newState);
+        jalousie.addNewState(newState);
     }
 
     public void startTotalEnergy() {
         Executors.newScheduledThreadPool(1).schedule(() -> {
-            State s = commonState.getState();
+            State s = jalousie.getState();
             if (s != null) {
-                commonState.setTotalEnergy(commonState.getTotalEnergy() + s.getBloudedSquare() * s.getAngel() / 10);
+                jalousie.setTotalEnergy(jalousie.getTotalEnergy() + s.getBloudedSquare() * s.getAngel() / 10);
             }
             System.out.println("add energy");
         }, 10, TimeUnit.SECONDS);

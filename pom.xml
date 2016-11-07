@@ -63,6 +63,11 @@
             <artifactId>jersey-media-moxy</artifactId>
             <version>${jersey2.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.vanya</groupId>
+            <artifactId>mongobd</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>zalemul</finalName>
